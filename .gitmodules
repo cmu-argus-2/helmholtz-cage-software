@@ -1,0 +1,4 @@
+[submodule "cpy"]
+	path = cpy
+	url = https://github.com/adafruit/circuitpython.git
+	branch = 9.2.x
