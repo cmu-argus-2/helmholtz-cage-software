@@ -1,15 +1,17 @@
 from h_bridge_controller import define_motor, define_pwm_pin
+from ulab import numpy as np
+
 
 class CoilDriver:
-    
-    COIL_X_PIN_PLUS = 0 # GPIO1
-    COIL_X_PIN_MINUS = 2 # GPIO3
 
-    COIL_Y_PIN_PLUS = 3 # GPIO5
-    COIL_Y_PIN_MINUS = 7 # GPIO7
+    COIL_X_PIN_PLUS = 0  # GPIO1
+    COIL_X_PIN_MINUS = 2  # GPIO3
 
-    COIL_Z_PIN_PLUS = 4 # GPIO9
-    COIL_Z_PIN_MINUS = 5 # GPIO11
+    COIL_Y_PIN_PLUS = 3  # GPIO5
+    COIL_Y_PIN_MINUS = 7  # GPIO7
+
+    COIL_Z_PIN_PLUS = 4  # GPIO9
+    COIL_Z_PIN_MINUS = 5  # GPIO11
 
     # Define PWM Pins
     # Coil X
@@ -31,10 +33,17 @@ class CoilDriver:
 
     @classmethod
     def get_dirs(cls):
-        return ['X', 'Y', 'Z']
-    
+        return ["X", "Y", "Z"]
+
     @classmethod
     def set_throttle(cls, throttle: float, dir: str):
 
-        coil = getattr(cls, 'COIL_' + dir)
+        coil = getattr(cls, "COIL_" + dir)
         coil.throttle = max(-1.0, min(1.0, throttle))
+
+    @classmethod
+    def set_throttles(cls, throttle: np.ndarray):
+
+        cls.COIL_X.throttle = max(-1.0, min(1.0, throttle[0]))
+        cls.COIL_Y.throttle = max(-1.0, min(1.0, throttle[1]))
+        cls.COIL_Z.throttle = max(-1.0, min(1.0, throttle[2]))
